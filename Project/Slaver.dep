@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>877206111</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$PROJ_DIR$\..\Driver\MKL_spi.c</file>
+      <file>$PROJ_DIR$\..\Driver\MKL_gpio.c</file>
+      <file>$PROJ_DIR$\..\Driver\retarget_iar.c</file>
+      <file>$PROJ_DIR$\..\Driver\MKL_uart.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_MKL16Z4.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKL16Z4.__cstat.et</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\include\fsl_bitaccess.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$PROJ_DIR$\..\Include\core_cm0plus.h</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\startup\system_MKL16Z4.h</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\include\MKL16Z4.h</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\include\MKL16Z4_features.h</file>
+      <file>$PROJ_DIR$\..\Include\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\include\MKL16Z4_extension.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$PROJ_DIR$\..\Include\core_cmInstr.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_uart.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\retarget_iar.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\w25x32.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\yfuns.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\Slaver.out</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+      <file>$PROJ_DIR$\User\main.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKL16Z64.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKL16Z64.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\arm_cm0.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\..\CMSIS\arm_cm0.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_MKL16Z64_iar.o</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\startup\system_MKL16Z4.c</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\startup\iar\startup_MKL16Z4.s</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\startup.c</file>
+      <file>$PROJ_DIR$\..\CMSIS\arm_cm0.c</file>
+      <file>$PROJ_DIR$\..\Common\startup_MKL16Z64_iar.s</file>
+      <file>$PROJ_DIR$\..\Common\system_MKL16Z64.c</file>
+      <file>$PROJ_DIR$\..\User\main.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKL16Z4.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKL16Z4.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\Slaver.pbd</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\startup.h</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\device_registers.h</file>
+      <file>$PROJ_DIR$\..\Driver\w25x32.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\arm_cm0.o</file>
+      <file>$PROJ_DIR$\..\Driver\w25x32.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\w25x32.o</file>
+      <file>$TOOLKIT_DIR$\lib\m6M_tl.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_spi.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_uart.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_gpio.pbi</file>
+      <file>$TOOLKIT_DIR$\lib\rt6M_tl.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_gpio.o</file>
+      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+      <file>$TOOLKIT_DIR$\lib\dl6M_tln.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\retarget_iar.o</file>
+      <file>$PROJ_DIR$\Debug\List\Slaver.map</file>
+      <file>$PROJ_DIR$\..\MKL16Z4\linker\iar\MKL16Z64xxx4_flash.icf</file>
+      <file>$PROJ_DIR$\Debug\Obj\MKL_spi.pbi</file>
+    </outputs>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_spi.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 60</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 70</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_gpio.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 64</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 62</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\retarget_iar.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 67</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 21</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 19 26 51 36 23 25 27 28</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_uart.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 61</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 24 68</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Slaver.out</name>
+      <outputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 68</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ILINK</name>
+          <file> 69 33 47 6 48 65 63 59 66</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\User\main.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 33</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\MKL16Z4\startup\system_MKL16Z4.c</name>
+      <outputs>
+        <tool>
+          <name>__cstat</name>
+          <file> 7</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 48</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 45</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 49 34 36 26 27 28 25 51 54 12 10 17 18 9 14 11 15 8 16 19 13</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 12 10 51 14 36 13 49 18 54 26 25 27 28 15 11 17 9 8 16 19</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\MKL16Z4\startup\iar\startup_MKL16Z4.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 6</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\MKL16Z4\startup.c</name>
+      <outputs>
+        <tool>
+          <name>__cstat</name>
+          <file> 5</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 47</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 53 54 12 49 34 36 26 27 28 25 51 10 17 18 9 14 11 15 8 16 19 13</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 36 49 51 14 8 15 11 18 54 12 13 10 26 25 27 28 17 9 16 19 53</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\CMSIS\arm_cm0.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 56</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 32</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Common\startup_MKL16Z64_iar.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 37</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Common\system_MKL16Z64.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 31</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 30</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 36 51 49 26 25 27 28</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\User\main.c</name>
+      <outputs>
+        <tool>
+          <name>__cstat</name>
+          <file> 4</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 33</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\w25x32.c</name>
+      <outputs>
+        <tool>
+          <name>ICCARM</name>
+          <file> 58</file>
+        </tool>
+        <tool>
+          <name>BICOMP</name>
+          <file> 22</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 57</file>
+        </tool>
+      </inputs>
+    </file>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>ILINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+
