@@ -25,7 +25,7 @@ if not "%1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Slaver\Project\settings\Slaver.Debug.general.xcl" --backend -f "E:\Slaver\Project\settings\Slaver.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Project\Slaver\Project\settings\Slaver.Debug.general.xcl" --backend -f "E:\Project\Slaver\Project\settings\Slaver.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Slaver\Project\settings\Slaver.Debug.general.xcl" "--debug_file=%1" --backend -f "E:\Slaver\Project\settings\Slaver.Debug.driver.xcl" 
+"C:\Program Files\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "E:\Project\Slaver\Project\settings\Slaver.Debug.general.xcl" "--debug_file=%1" --backend -f "E:\Project\Slaver\Project\settings\Slaver.Debug.driver.xcl" 
 
 @echo off 
 :end

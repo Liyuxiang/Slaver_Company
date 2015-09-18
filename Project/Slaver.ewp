@@ -1920,6 +1920,12 @@
   </group>
   <group>
     <name>Component</name>
+    <group>
+      <name>UWB</name>
+      <file>
+        <name>$PROJ_DIR$\..\Component\UWB\Interrupt_UWB.c</name>
+      </file>
+    </group>
   </group>
   <group>
     <name>Driver</name>
@@ -1934,9 +1940,6 @@
     </file>
     <file>
       <name>$PROJ_DIR$\..\Driver\retarget_iar.c</name>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\..\Driver\w25x32.c</name>
     </file>
   </group>
   <group>

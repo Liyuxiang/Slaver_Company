@@ -1,645 +1,259 @@
-/****************************************Copyright (c)****************************************************
-**               Copyright © 2003~2009 Shenzhen uCdragon Technology Co.,Ltd. All Rights Reserved 
-**
-**                                 http://www.ucdragon.com
-**
-**      …Ó€⁄ –”≈¡˙ø∆ºº”–œﬁπ´ÀæÀ˘Ã·π©µƒÀ˘”–∑˛ŒÒƒ⁄»›÷º‘⁄–≠÷˙øÕªßº”ÀŸ≤˙∆∑µƒ—–∑¢Ω¯∂»£¨‘⁄∑˛ŒÒπ˝≥Ã÷–À˘Ã·π©
-**  µƒ»Œ∫Œ≥Ã–Ú°¢Œƒµµ°¢≤‚ ‘Ω·π˚°¢∑Ω∞∏°¢÷ß≥÷µ»◊ ¡œ∫Õ–≈œ¢£¨∂ºΩˆπ©≤Œøº£¨øÕªß”–»®≤ª π”√ªÚ◊‘––≤Œøº–ﬁ∏ƒ£¨±æπ´Àæ≤ª
-**  Ã·π©»Œ∫ŒµƒÕÍ’˚–‘°¢ø…øø–‘µ»±£÷§£¨»Ù‘⁄øÕªß π”√π˝≥Ã÷–“Ú»Œ∫Œ‘≠“Ú‘Ï≥…µƒÃÿ±µƒ°¢≈º»ªµƒªÚº‰Ω”µƒÀ ß£¨±æπ´Àæ≤ª
-**  ≥–µ£»Œ∫Œ‘»Œ°£
-**                                                                        °™…Ó€⁄ –”≈¡˙ø∆ºº”–œﬁπ´Àæ
-**
-**--------------File Info---------------------------------------------------------------------------------
-** File name:               MKL_uart.c
-** Last modified date:      
-** Last version:            V1.0
-** Descriptions:            uart«˝∂Ø≥Ã–Ú
-**
--------------------------------------------------------------------------------------------------------
-** Modified by:        
-** Modified date:      
-** Version:            
-** Descriptions:       
-**
-*********************************************************************************************************/
+/*=============================================================================
+#     FileName: MKL_uart.c
+#         Desc: ‰∏≤Âè£Â∫ïÂ±ÇÂáΩÊï∞
+#       Author: Lyn
+#        Email: 
+#     HomePage: 
+#      Version: 0.0.1
+#   LastChange: 2015-09-18 15:43:20
+#      History:
+=============================================================================*/
 #include "includes.h"
-
-/*********************************************************************************************************
-** Function name:           uart0Init
-** Descriptions:            UART0µƒ≥ı ºªØ
-** input parameters:        ucBaudRate:≤®Ãÿ¬ £ªucParityEnable:–£—ÈŒª—°‘Ò£ª
-**                          ucParityType:–£—È¿‡–Õ£ªucDataLength: ˝æ›≥§∂»£ªucStopBit:Õ£÷πŒª£ª
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:         
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart0Init (INT32U  ulBaudRate, 
-                 INT8U   ucParityEnable,
-                 INT8U   ucParityType,
-                 INT8U   ucDataLength, 
-                 INT8U   ucStopBit) 
-{
-    UART0_MemMapPtr uartPtr     = UART0_BASE_PTR;
+unsigned char 
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPRS‰∏≤Âè£ÂàùÂßãÂåñ,‰ΩøÁî®UART0,ÁõÆÂâç‰∏çÊîØÊåÅ10‰Ωç.
+ *
+ * Input    :ulBaudRate------->Ê≥¢ÁâπÁéá
+ * Input    :ucParityEnable--->Ê†°È™å
+ * Input    :ucParityType----->Â•áÂÅ∂Ê†°È™å
+ * Input    :ucDataLength----->Êï∞ÊçÆÈïøÂ∫¶
+ * Input    :ucStopBit-------->ÂÅúÊ≠¢‰Ωç
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPRS_Uart_Init (unsigned long  ulBaudRate, 
+        unsigned char   ucParityEnable,
+        unsigned char   ucParityType,
+        unsigned char   ucDataLength, 
+        unsigned char   ucStopBit) {
     register INT16U usBaudRate  = 0;  
-    
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LENGTH(ucDataLength)); 
-    UART_CHECK_PARAM(UART_PARAM_STOP(ucStopBit));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucParityEnable));
-    UART_CHECK_PARAM(UART_PARAM_PARITY(ucParityType));   
-#endif 
-    
+
     SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK; 
-    SIM_SOPT2 |= SIM_SOPT2_UART0SRC(1);                                 /* —°‘ÒPLL ±÷”                  */  
-    SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;                                  /* ‘ –ÌÕ‚…Ë ±÷”                 */
+    SIM_SOPT2 |= SIM_SOPT2_UART0SRC(1);   
+    SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;   
+    /* **
+     * Â§±ËÉΩUART0ÁöÑÂèëÈÄÅÊé•ÂèóÂäüËÉΩ.
+     */
+    UART0_C2_REG(UART0)&= ~(UART0_C2_TE_MASK | UART0_C2_RE_MASK);
 
-    uart0TranControl(UART_TX_DISABLE, UART_RX_DISABLE);                 /*  ◊œ»Ω˚÷πÕ®–≈                 */
+    /* **
+     * ÂÖàÊ∏ÖÈô§ÂØÑÂ≠òÂô®Áõ∏ÂÖ≥‰Ωç
+     */
+    UART0_C1_REG(UART0) &= ~(UART0_C1_M_MASK |
+            UART0_C1_PT_MASK |              
+            UART0_C1_PE_MASK);             
+    UART0_C4_REG(UART0) &= ~UART0_C4_M10_MASK; 
+    /* **
+     * ËÆæÁΩÆÂèëÈÄÅ‰ΩçÈïø
+     * Ê†°È™å‰ΩøËÉΩ
+     * Â•áÂÅ∂Ê†°È™å
+     */
+    UART0_C1_REG(UART0) |= ((ucDataLength - 8UL) << UART0_C1_M_SHIFT)|
+        (ucParityEnable << UART0_C1_PE_SHIFT)|
+        (ucParityType << UART0_C1_PT_SHIFT);                
 
-    #if 1
-    PORTA_PCR1 = PORT_PCR_MUX(0x2);                                     /* UART0_TXD                    */
-    PORTA_PCR2 = PORT_PCR_MUX(0x2);                                     /* UART0_RXD                    */
-    #endif
-    #if 0
-    PORTA_PCR14 = PORT_PCR_MUX(0x3);                                    /* UART0_TXD                    */
-    PORTA_PCR15 = PORT_PCR_MUX(0x3);                                    /* UART0_RXD                    */
-    #endif  
-    #if 0
-    PORTD_PCR7 = PORT_PCR_MUX(0x3);                                     /* UART0_TXD                    */
-    PORTD_PCR6 = PORT_PCR_MUX(0x3);                                     /* UART0_RXD                    */
-    #endif              
-    #if 0
-    PORTE_PCR20 = PORT_PCR_MUX(0x4);                                    /* UART0_TXD                    */
-    PORTE_PCR21 = PORT_PCR_MUX(0x4);                                    /* UART0_RXD                    */
-    #endif       
-    #if 0
-    PORTE_PCR17 = PORT_PCR_MUX(0x3);                                    /* UART0_TXD                    */
-    PORTE_PCR16 = PORT_PCR_MUX(0x3);                                    /* UART0_RXD                    */
-    #endif        
-    
-    UART0_C1_REG(uartPtr) &= ~(UART0_C1_M_MASK |                        /*  ˝æ›≥§∂»                     */
-                              UART0_C1_PT_MASK |                        /* –£—ÈŒª¿‡–Õ                   */
-                              UART0_C1_PE_MASK);                        /* –£—ÈŒª                       */
-    UART0_C4_REG(uartPtr) &= ~UART0_C4_M10_MASK; 
-
-    
-    if (ucDataLength == 10) {
-        UART0_C1_REG(uartPtr) |= (ucParityEnable << UART0_C1_PE_SHIFT)|
-                                 (ucParityType << UART0_C1_PT_SHIFT);   
-        UART0_C4_REG(uartPtr) |= UART0_C4_M10_MASK;   
-    } else {
-        UART0_C1_REG(uartPtr) |= ((ucDataLength - 8UL) << UART0_C1_M_SHIFT)|
-                                 (ucParityEnable << UART0_C1_PE_SHIFT)|
-                                 (ucParityType << UART0_C1_PT_SHIFT);                
-    }
-    
+    /* **
+     * ËÆæÁΩÆÊ≥¢ÁâπÁéá
+     */
     usBaudRate = SystemBusClock/(ulBaudRate * 16);
-    UART0_BDH_REG(uartPtr)  = (usBaudRate & 0x1F00) >> 8;               /* ≤®Ãÿ¬                        */
-    UART0_BDL_REG(uartPtr)  = (INT8U)(usBaudRate & UART0_BDL_SBR_MASK);
-    UART0_BDH_REG(uartPtr) &= ~UART0_BDH_SBNS_MASK;                     /* Õ£÷πŒª                       */
-    UART0_BDH_REG(uartPtr) |= (ucStopBit - 1) << UART0_BDH_SBNS_SHIFT;
-    UART0_C2_REG(uartPtr)  &= ~(UART0_C2_TIE_MASK | UART0_C2_TCIE_MASK |       
-                              UART0_C2_RIE_MASK | UART0_C2_ILIE_MASK);  /* «Â≥˝÷–∂œ…Ë÷√                 */
+    UART0_BDH_REG(UART0)  = (usBaudRate & 0x1F00) >> 8;  
+    UART0_BDL_REG(UART0)  = (unsigned char)(usBaudRate & UART0_BDL_SBR_MASK);
+    /* **
+     * ÂÅúÊ≠¢‰Ωç
+     */
+    UART0_BDH_REG(UART0) &= ~UART0_BDH_SBNS_MASK;   
+    UART0_BDH_REG(UART0) |= (ucStopBit - 1) << UART0_BDH_SBNS_SHIFT;
+    /* **
+     * ‰∏≠Êñ≠
+     */
+    UART0_C2_REG(UART0)  &= ~(UART0_C2_TIE_MASK | UART0_C2_TCIE_MASK |       
+            UART0_C2_RIE_MASK | UART0_C2_ILIE_MASK); 
 
-    while ((UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK) &&
-           (UART0_D_REG(uartPtr)));                                     /* «ÂΩ” ’ª∫≥Â«¯                 */
-    #if UART0_DEFAULT_OPEN   
-    uart0TranControl(UART_TX_ENABLE, UART_RX_ENABLE);                   /* ≈‰÷√ÕÍ≥…‘ –ÌÕ®–≈             */
-    #endif
-    
-    #if UART0_IRQ_ENABLE    
-        #if UART0_SEND_IRQ
-        UART0_C2_REG(uartPtr) |= UART0_C2_TCIE_MASK;
-        #endif
-        #if UART0_RECEIVE_IRQ
-        UART0_C2_REG(uartPtr) |= UART0_C2_RIE_MASK;
-        #endif                
+    /* **
+     * Á≠âÂæÖÊé•Êî∂ÂØÑÂ≠òÂô®ÂíåÊï∞ÊçÆÂØÑÂ≠òÂô®‰∏∫Á©∫
+     */
+    while ((UART0_S1_REG(UART0) & UART0_S1_RDRF_MASK) &&
+            (UART0_D_REG(UART0))); 
+    /* **
+     * ‰ΩøËÉΩUARTÂèëÈÄÅÊé•Êî∂
+     */
+    UART_C2_REG(UART0) |= (UART_TX_ENABLE << UART_C2_TE_SHIFT)|
+        (UART_RX_ENABLE << UART_C2_RE_SHIFT);
+
+    /* **
+     * Êé•Êî∂‰∏≠Êñ≠‰ΩøËÉΩ
+     */
+    UART0_C2_REG(UART0) |= UART0_C2_RIE_MASK;
     NVIC_EnableIRQ(UART0_IRQn);
-    NVIC_SetPriority(UART0_IRQn,3);                                     /* ”√ªß◊‘º∫∂®“Â                 */                    
-    #endif            
-      
+    NVIC_SetPriority(UART0_IRQn,3); 
+
 }
 
-/*********************************************************************************************************
-** Function name:           uart1Init
-** Descriptions:            UART1µƒ≥ı ºªØ
-** input parameters:        ucBaudRate:≤®Ãÿ¬ £ªucParityEnable:–£—ÈŒª—°‘Ò£ª
-**                          ucParityType:–£—È¿‡–Õ£ªucDataLength: ˝æ›≥§∂»£ªucStopBit:Õ£÷πŒª£ª
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:           
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart1Init (INT32U  ulBaudRate, 
-                 INT8U   ucParityEnable,
-                 INT8U   ucParityType,
-                 INT8U   ucDataLength, 
-                 INT8U   ucStopBit) 
-{
-    UART_MemMapPtr uartPtr     = UART1_BASE_PTR;
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GRS‰∏≤Âè£ÂàùÂßãÂåñ,‰ΩøÁî®UART2.
+ *
+ * Input    :ulBaudRate------->Ê≥¢ÁâπÁéá
+ * Input    :ucParityEnable--->Ê†°È™å
+ * Input    :ucParityType----->Â•áÂÅ∂Ê†°È™å
+ * Input    :ucDataLength----->Êï∞ÊçÆÈïøÂ∫¶
+ * Input    :ucStopBit-------->ÂÅúÊ≠¢‰Ωç
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPS_Uart_Init (unsigned long  ulBaudRate, 
+        unsigned char   ucParityEnable,
+        unsigned char   ucParityType,
+        unsigned char   ucDataLength, 
+        unsigned char   ucStopBit) {
     register INT16U usBaudRate  = 0;  
 
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LENGTH(ucDataLength)); 
-    UART_CHECK_PARAM(UART_PARAM_STOP(ucStopBit));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucParityEnable));
-    UART_CHECK_PARAM(UART_PARAM_PARITY(ucParityType));   
-#endif  
-    
-    SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;                                  /* ‘ –ÌÕ‚…Ë ±÷”                 */       
-    uart1TranControl(UART_TX_DISABLE, UART_RX_DISABLE);                 /*  ◊œ»Ω˚÷πÕ®–≈                 */
- 
-    #if 0
-    PORTC_PCR4 = PORT_PCR_MUX(0x3);                                     /* UART1_TXD                    */
-    PORTC_PCR3 = PORT_PCR_MUX(0x3);                                     /* UART1_RXD                    */  
-    #endif            
-    #if 0
-    PORTC_PCR4 = PORT_PCR_MUX(0x3);                                     /* UART1_TXD                    */
-    PORTC_PCR3 = PORT_PCR_MUX(0x3);                                     /* UART1_RXD                    */  
-    #endif
-    #if 0
-    PORTE_PCR0 = PORT_PCR_MUX(0x3);                                     /* UART1_TXD                    */
-    PORTE_PCR1 = PORT_PCR_MUX(0x3);                                     /* UART1_RXD                    */   
-    #endif          
-     
+    SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
+    /* **
+     * ‰ΩøËÉΩÂèëÈÄÅÊé•Êî∂
+     */
+    UART_C2_REG(UART2) &= ~(UART_C2_TE_MASK | UART_C2_RE_MASK);
 
-    UART_C1_REG(uartPtr) &= ~(UART_C1_M_MASK |                           /*  ˝æ›≥§∂»                    */
-                              UART_C1_PT_MASK |                          /* –£—ÈŒª¿‡–Õ                  */
-                              UART_C1_PE_MASK);                          /* –£—ÈŒª                      */
-    
-    UART_C1_REG(uartPtr) |= ((ucDataLength - 8UL) << UART_C1_M_SHIFT)|
-                            (ucParityEnable << UART_C1_PE_SHIFT)|
-                            (ucParityType << UART_C1_PT_SHIFT);                
-
-    
+    /* **
+     * ËÆæÁΩÆÊï∞ÊçÆÈïøÂ∫¶,Â•áÂÅ∂Ê†°È™å
+     */
+    UART_C1_REG(UART2) &= ~(UART_C1_M_MASK | 
+            UART_C1_PT_MASK |
+            UART_C1_PE_MASK);
+    UART_C1_REG(UART2) |= ((ucDataLength - 8UL) << UART_C1_M_SHIFT)|
+        (ucParityEnable << UART_C1_PE_SHIFT)|
+        (ucParityType << UART_C1_PT_SHIFT);                
+    /* **
+     * ËÆæÁΩÆÊ≥¢ÁâπÁéá
+     */
     usBaudRate = SystemBusClock/(ulBaudRate * 16);    
-    UART_BDH_REG(uartPtr) = (usBaudRate & 0x1F00) >> 8;                 /* ≤®Ãÿ¬                        */
-    UART_BDL_REG(uartPtr) = (INT8U)(usBaudRate & UART_BDL_SBR_MASK);
-    UART_BDH_REG(uartPtr) &= ~UART_BDH_SBNS_MASK;                       /* Õ£÷πŒª                       */
-    UART_BDH_REG(uartPtr) |= (ucStopBit - 1) << UART_BDH_SBNS_SHIFT;
-    UART_C2_REG(uartPtr) &= ~(UART_C2_TIE_MASK | UART_C2_TCIE_MASK|     /* «Â≥˝÷–∂œ…Ë÷√                 */
-                              UART_C2_RIE_MASK | UART_C2_ILIE_MASK);  
+    UART_BDH_REG(UART2) = (usBaudRate & 0x1F00) >> 8;  
+    UART_BDL_REG(UART2) = (unsigned char)(usBaudRate & UART_BDL_SBR_MASK);
+    /* **
+     * ËÆæÁΩÆÂÅúÊ≠¢‰Ωç
+     */
+    UART_BDH_REG(UART2) &= ~UART_BDH_SBNS_MASK; 
+    UART_BDH_REG(UART2) |= (ucStopBit - 1) << UART_BDH_SBNS_SHIFT;
+    /* **
+     * ÂºÄÂßãËÆæÁΩÆ‰∏≠Êñ≠
+     */
+    UART_C2_REG(UART2) &= ~(UART_C2_TIE_MASK | UART_C2_TCIE_MASK| 
+            UART_C2_RIE_MASK | UART_C2_ILIE_MASK);  
 
-    while ((UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK) && 
-           (UART_D_REG(uartPtr)));                                      /* «ÂΩ” ’ª∫≥Â«¯                 */
-   
-    #if UART0_DEFAULT_OPEN   
-    uart1TranControl(UART_TX_ENABLE, UART_RX_ENABLE);                   /* ≈‰÷√ÕÍ≥…‘ –ÌÕ®–≈             */
-    #endif
-
-    #if UART1_IRQ_ENABLE        
-        #if UART1_SEND_IRQ
-        UART_C2_REG(uartPtr) |= UART_C2_TCIE_MASK;
-        #endif
-        #if UART1_RECEIVE_IRQ
-        UART_C2_REG(uartPtr) |= UART_C2_RIE_MASK;
-        #endif                   
-    NVIC_EnableIRQ(UART1_IRQn);
-    NVIC_SetPriority(UART1_IRQn,3);                                     /* ”√ªß◊‘º∫∂®“Â                 */                 
-    #endif            
-            
-}
-
-/*********************************************************************************************************
-** Function name:           uart2Init
-** Descriptions:            UART2µƒ≥ı ºªØ
-** input parameters:        ucBaudRate:≤®Ãÿ¬ £ªucParityEnable:–£—ÈŒª—°‘Ò£ª
-**                          ucParityType:–£—È¿‡–Õ£ªucDataLength: ˝æ›≥§∂»£ªucStopBit:Õ£÷πŒª£ª
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart2Init (INT32U  ulBaudRate, 
-                 INT8U   ucParityEnable,
-                 INT8U   ucParityType,
-                 INT8U   ucDataLength, 
-                 INT8U   ucStopBit) 
-{
-    UART_MemMapPtr uartPtr     = UART2_BASE_PTR;
-    register INT16U usBaudRate  = 0;  
-    
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LENGTH(ucDataLength)); 
-    UART_CHECK_PARAM(UART_PARAM_STOP(ucStopBit));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucParityEnable));
-    UART_CHECK_PARAM(UART_PARAM_PARITY(ucParityType));   
-#endif  
-    
-    SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;                                  /* ‘ –ÌÕ‚…Ë ±÷”                 */       
-    uart2TranControl(UART_TX_DISABLE, UART_RX_DISABLE);                 /*  ◊œ»Ω˚÷πÕ®–≈                 */
-
-
-    #if 0                                                               
-    PORTD_PCR3 = PORT_PCR_MUX(0x3);                                     /* UART2_TXD                    */
-    PORTD_PCR2 = PORT_PCR_MUX(0x3);                                     /* UART2_RXD                    */
-    #endif
-    #if 0                                                               
-    PORTD_PCR5 = PORT_PCR_MUX(0x3);                                     /* UART2_TXD                    */
-    PORTD_PCR4 = PORT_PCR_MUX(0x3);                                     /* UART2_RXD                    */
-    #endif
-    #if 0                                                               
-    PORTE_PCR22 = PORT_PCR_MUX(0x4);                                    /* UART2_TXD                    */
-    PORTE_PCR23 = PORT_PCR_MUX(0x4);                                    /* UART2_RXD                    */
-    #endif           
-    
-     
-
-    UART_C1_REG(uartPtr) &= ~(UART_C1_M_MASK |                          /*  ˝æ›≥§∂»                     */
-                              UART_C1_PT_MASK |                         /* –£—ÈŒª¿‡–Õ                   */
-                              UART_C1_PE_MASK);                         /* –£—ÈŒª                       */
-    
-    UART_C1_REG(uartPtr) |= ((ucDataLength - 8UL) << UART_C1_M_SHIFT)|
-                            (ucParityEnable << UART_C1_PE_SHIFT)|
-                            (ucParityType << UART_C1_PT_SHIFT);                
-
-    
-    usBaudRate = SystemBusClock/(ulBaudRate * 16);    
-    UART_BDH_REG(uartPtr) = (usBaudRate & 0x1F00) >> 8;                 /* ≤®Ãÿ¬                        */
-    UART_BDL_REG(uartPtr) = (INT8U)(usBaudRate & UART_BDL_SBR_MASK);
-    UART_BDH_REG(uartPtr) &= ~UART_BDH_SBNS_MASK;                       /* Õ£÷πŒª                       */
-    UART_BDH_REG(uartPtr) |= (ucStopBit - 1) << UART_BDH_SBNS_SHIFT;
-    UART_C2_REG(uartPtr) &= ~(UART_C2_TIE_MASK | UART_C2_TCIE_MASK|     /* «Â≥˝÷–∂œ…Ë÷√                 */
-                              UART_C2_RIE_MASK | UART_C2_ILIE_MASK);  
-
-    while ((UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK) &&
-           (UART_D_REG(uartPtr)));                                      /* «ÂΩ” ’ª∫≥Â«¯                 */
-   
-                                              
-    #if UART2_IRQ_ENABLE       
-        #if UART2_SEND_IRQ
-        UART_C2_REG(uartPtr) |= UART_C2_TCIE_MASK;
-        #endif
-        #if UART2_RECEIVE_IRQ
-        UART_C2_REG(uartPtr) |= UART_C2_RIE_MASK;
-        #endif             
+    while ((UART_S1_REG(UART2) & UART_S1_RDRF_MASK) &&
+            (UART_D_REG(UART2)));  
+    UART_C2_REG(UART2) |= UART_C2_RIE_MASK;
     NVIC_EnableIRQ(UART2_IRQn);
-    NVIC_SetPriority(UART2_IRQn,3);                                     /* ”√ªß◊‘º∫∂®“Â                 */        
-    #endif            
+    NVIC_SetPriority(UART2_IRQn,3);    
 
 }
 
-/*********************************************************************************************************
-** Function name:           uart0TranControl
-** Descriptions:            UARTµƒ¥´ ‰øÿ÷∆
-** input parameters:        ucTxEnable:∑¢ÀÕ πƒ‹øÿ÷∆£ªucRxEnable:Ω” ’ πƒ‹øÿ÷∆
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart0TranControl (INT8U  ucTxEnable, 
-                        INT8U  ucRxEnable)
-{
-    UART0_MemMapPtr uartPtr = UART0_BASE_PTR;
-    
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucTxEnable));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucRxEnable));
-#endif   
 
-    UART0_C2_REG(uartPtr) &= ~(UART0_C2_TE_MASK | UART0_C2_RE_MASK);
-    UART0_C2_REG(uartPtr) |= (ucTxEnable << UART0_C2_TE_SHIFT)|
-                             (ucRxEnable << UART0_C2_RE_SHIFT);
-}  
 
-/*********************************************************************************************************
-** Function name:           uart1TranControl
-** Descriptions:            UARTµƒ¥´ ‰øÿ÷∆
-** input parameters:        ucTxEnable:∑¢ÀÕ πƒ‹øÿ÷∆£ªucRxEnable:Ω” ’ πƒ‹øÿ÷∆
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:           
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart1TranControl (INT8U  ucTxEnable, 
-                        INT8U  ucRxEnable)
-{
-    UART_MemMapPtr uartPtr = UART1_BASE_PTR;
-    
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucTxEnable));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucRxEnable));
-#endif   
-
-    UART_C2_REG(uartPtr) &= ~(UART_C2_TE_MASK | UART_C2_RE_MASK);
-    UART_C2_REG(uartPtr) |= (ucTxEnable << UART_C2_TE_SHIFT)|
-                            (ucRxEnable << UART_C2_RE_SHIFT);
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPRSÊé•Êî∂‰∏ÄÂ≠óËäÇÊï∞ÊçÆ
+ *
+ * Output   :
+ */
+/* ---------------------------------------------------------------------------*/
+unsigned char  GPRS_Get_Char (void) {
+    while (!(UART0_S1_REG(UART0) & UART0_S1_RDRF_MASK)); 
+    return UART0_D_REG(UART0);
 }
 
-/*********************************************************************************************************
-** Function name:           uart2TranControl
-** Descriptions:            UARTµƒ¥´ ‰øÿ÷∆
-** input parameters:        ucTxEnable:∑¢ÀÕ πƒ‹øÿ÷∆£ªucRxEnable:Ω” ’ πƒ‹øÿ÷∆
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart2TranControl (INT8U  ucTxEnable, 
-                        INT8U  ucRxEnable)
-{
-    UART_MemMapPtr uartPtr = UART2_BASE_PTR;
-    
-#if UART_PARAM_DEBUG
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucTxEnable));
-    UART_CHECK_PARAM(UART_PARAM_LOGIC(ucRxEnable));
-#endif   
-
-    UART_C2_REG(uartPtr) &= ~(UART_C2_TE_MASK | UART_C2_RE_MASK);
-    UART_C2_REG(uartPtr) |= (ucTxEnable << UART_C2_TE_SHIFT)|
-                            (ucRxEnable << UART_C2_RE_SHIFT);
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPSÊé•Êî∂‰∏ÄÂ≠óËäÇÊï∞ÊçÆ
+ *
+ * Output   :
+ */
+/* ---------------------------------------------------------------------------*/
+unsigned char  GPS_Get_Char (void) {
+    while (!(UART_S1_REG(UART2) & UART_S1_RDRF_MASK));   
+    return UART_D_REG(UART2);    
 }
 
-/*********************************************************************************************************
-** Function name:           uart0GetChar
-** Descriptions:            UARTªÒ»°“ª∏ˆ◊÷Ω⁄
-** input parameters:        none
-** output parameters:       none
-** Returned value:          ªÒ»°◊÷Ω⁄÷µ
-** Created by:           
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-INT8U  uart0GetChar (void)
-{
-    UART0_MemMapPtr uartPtr = UART0_BASE_PTR;
 
-    while (!(UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK));              /* µ»¥˝Ω” ’ª∫≥Â«¯ø…”√           */
-    return UART0_D_REG(uartPtr);                                        /* ∑µªÿΩ” ’◊÷Ω⁄                 */
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPRSÂèëÈÄÅ‰∏ÄÂ≠óËäÇ
+ *
+ * Input    :ucData
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPRS_Send_Char (unsigned char  ucData) {
+    while (!((UART0_S1_REG(UART0) & UART0_S1_TDRE_MASK))); 
+    UART0_D_REG(UART0) = ucData;   
 }
 
-/*********************************************************************************************************
-** Function name:           uart1GetChar
-** Descriptions:            UARTªÒ»°“ª∏ˆ◊÷Ω⁄
-** input parameters:        none
-** output parameters:       none
-** Returned value:          ªÒ»°◊÷Ω⁄÷µ
-** Created by:             
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-INT8U  uart1GetChar (void)
-{
-    UART_MemMapPtr uartPtr = UART1_BASE_PTR;
 
-    while (!(UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK));                /* µ»¥˝Ω” ’ª∫≥Â«¯ø…”√           */
-    return UART_D_REG(uartPtr);                                         /* ∑µªÿΩ” ’◊÷Ω⁄                 */
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPSÂèëÈÄÅ‰∏ÄÂ≠óËäÇ
+ *
+ * Input    :ucData
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPS_Send_Char (unsigned char  ucData) {
+    while (!((UART_S1_REG((UART2)) & UART_S1_TDRE_MASK))); 
+    UART_D_REG((UART2)) = ucData;  
 }
 
-/*********************************************************************************************************
-** Function name:           uart2GetChar
-** Descriptions:            UARTªÒ»°“ª∏ˆ◊÷Ω⁄
-** input parameters:        none
-** output parameters:       none
-** Returned value:          ªÒ»°◊÷Ω⁄÷µ
-** Created by:             
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-INT8U  uart2GetChar (void)
-{
-    UART_MemMapPtr uartPtr = UART1_BASE_PTR;
 
-    while (!(UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK));                /* µ»¥˝Ω” ’ª∫≥Â«¯ø…”√           */
-    return UART_D_REG(uartPtr);                                         /* ∑µªÿΩ” ’◊÷Ω⁄                 */
-}
-
-/*********************************************************************************************************
-** Function name:           uart0SendChar
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷Ω⁄
-** input parameters:        ucData:¥˝∑¢ÀÕ◊÷Ω⁄
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart0SendChar (INT8U  ucData)
-{
-    UART0_MemMapPtr uartPtr = UART0_BASE_PTR;
-
-    while (!((UART0_S1_REG(uartPtr) & UART0_S1_TDRE_MASK)));            /* µ»¥˝FIFOø…”√                 */
-    UART0_D_REG(uartPtr) = ucData;                                      /* ÃÓ≥‰ ˝æ›ºƒ¥Ê∆˜               */
-}
-
-/*********************************************************************************************************
-** Function name:           uart1SendChar
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷Ω⁄
-** input parameters:        ucData:¥˝∑¢ÀÕ◊÷Ω⁄
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart1SendChar (INT8U  ucData)
-{
-    UART_MemMapPtr uartPtr = UART1_BASE_PTR;
-
-    while (!((UART_S1_REG(uartPtr) & UART_S1_TDRE_MASK)));              /* µ»¥˝FIFOø…”√                 */
-    UART_D_REG(uartPtr) = ucData;                                       /* ÃÓ≥‰ ˝æ›ºƒ¥Ê∆˜               */
-}
-
-/*********************************************************************************************************
-** Function name:           uart2SendChar
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷Ω⁄
-** input parameters:        ucData:¥˝∑¢ÀÕ◊÷Ω⁄
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart2SendChar (INT8U  ucData)
-{
-    UART_MemMapPtr uartPtr = UART2_BASE_PTR;
-
-    while (!((UART_S1_REG(uartPtr) & UART_S1_TDRE_MASK)));              /* µ»¥˝FIFOø…”√                 */
-    UART_D_REG(uartPtr) = ucData;                                       /* ÃÓ≥‰ ˝æ›ºƒ¥Ê∆˜               */
-}
-
-/*********************************************************************************************************
-** Function name:           uart0SendString
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷∑˚¥Æ
-** input parameters:        pucBuf:¥˝∑¢ÀÕ◊÷∑˚¥Æ÷∏’Î
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart0SendString (INT8U  *pucBuf)
-{
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPRSÂèëÈÄÅÂ≠óÁ¨¶‰∏≤
+ *
+ * Input    :pucBuf
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPRS_Send_String (unsigned char  *pucBuf) {
     while (*pucBuf != '\0') { 
-        uart0SendChar(*pucBuf++);
+        (UART2)(*pucBuf++);
     }    
 }
 
-/*********************************************************************************************************
-** Function name:           uart1SendString
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷∑˚¥Æ
-** input parameters:        pucBuf:¥˝∑¢ÀÕ◊÷∑˚¥Æ÷∏’Î
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart1SendString (INT8U  *pucBuf)
-{
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPSÂèëÈÄÅÂ≠óÁ¨¶‰∏≤
+ *
+ * Input    :pucBuf
+ */
+/* ---------------------------------------------------------------------------*/
+void  GPS_Send_String (unsigned char  *pucBuf) {
     while (*pucBuf != '\0') { 
-        uart1SendChar(*pucBuf++);
+        GPS_Send_Char(*pucBuf++);
     }    
 }
 
-/*********************************************************************************************************
-** Function name:           uart2SendString
-** Descriptions:            UART∑¢ÀÕ“ª∏ˆ◊÷∑˚¥Æ
-** input parameters:        pucBuf:¥˝∑¢ÀÕ◊÷∑˚¥Æ÷∏’Î
-** output parameters:       none
-** Returned value:          none
-** Created by:             
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  uart2SendString (INT8U  *pucBuf)
-{
-    while (*pucBuf != '\0') { 
-        uart1SendChar(*pucBuf++);
-    }    
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPRS‰∏≠Êñ≠
+ */
+/* ---------------------------------------------------------------------------*/
+void  UART0_IRQHandler (void) {     
+    UART0_MemMapPtr uartPtr = UART0_BASE_PTR;     
+    while (UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK) {   
+        uart0SendChar(UART0_D_REG(uartPtr));            
+        //     while(!UART0_D_REG(uartPtr));           
+    }   
 }
 
-/*********************************************************************************************************
-** Function name:           uartGetStatus
-** Descriptions:            UARTµ±«∞◊¥Ã¨
-** input parameters:        none
-** output parameters:       none
-** Returned value:          ◊¥Ã¨≤Œ ˝
-** Created by:              
-** Created date:           
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-//INT32U uartGetStatus(INT8U ucPortNum)
-//{
-//    return (UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK);   
-//}  
-/*********************************************************************************************************
-** Function name:           UART0_IRQHandler
-** Descriptions:            UART0÷–∂œ∑˛ŒÒ∫Ø ˝
-** input parameters:        none
-** output parameters:       none
-** Returned value:          none
-** Created by:             
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  UART0_IRQHandler (void)
-{     
-   UART0_MemMapPtr uartPtr = UART0_BASE_PTR;                            /* ∑¢ÀÕ÷–∂œ¥¶¿Ì≥Ã–Ú             */
-   #if UART0_SEND_IRQ                                                   /* ”√ªß∂®“Â                     */ 
-   #endif
-    
-   #if UART0_RECEIVE_IRQ
-    
-   while (UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK) {                 /* «Â≥˝÷–∂œ±Í÷æ                 */
-       uart0SendChar(UART0_D_REG(uartPtr));                             /* ∑µªÿΩ” ’ ˝æ›                 */
-//     while(!UART0_D_REG(uartPtr));                                    /* «ÂΩ” ’ª∫≥Â«¯                 */
-   }   
-   #endif
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :GPS‰∏≠Êñ≠
+ */
+/* ---------------------------------------------------------------------------*/
+void  UART2_IRQHandler (void) {
+    UART_MemMapPtr uartPtr = UART2_BASE_PTR;  
+    while (UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK){    
+        uart2SendChar(UART_D_REG(uartPtr));             
+        while (!UART_D_REG(uartPtr));                  
+    }   
 }
 
-/*********************************************************************************************************
-** Function name:           UART1_IRQHandler
-** Descriptions:            UART1÷–∂œ∑˛ŒÒ∫Ø ˝
-** input parameters:        none
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:            
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  UART1_IRQHandler (void)
-{
-   UART_MemMapPtr uartPtr = UART1_BASE_PTR;                             /* ∑¢ÀÕ÷–∂œ¥¶¿Ì≥Ã–Ú             */
-   #if UART1_SEND_IRQ                                                   /* ”√ªß∂®“Â                     */ 
-   #endif
-    
-   #if UART1_RECEIVE_IRQ
-   while (UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK){                    /* «Â≥˝÷–∂œ±Í÷æ                 */
-       uart1SendChar(UART_D_REG(uartPtr));                              /* ∑µªÿΩ” ’ ˝æ›                 */       
-//       while (!UART0_D_REG(uartPtr));                                 /* «ÂΩ” ’ª∫≥Â«¯                 */
-   }   
-   #endif    
-}
-
-/*********************************************************************************************************
-** Function name:           UART2_IRQHandler
-** Descriptions:            UART2÷–∂œ∑˛ŒÒ∫Ø ˝
-** input parameters:        none
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date:           
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void  UART2_IRQHandler (void)
-{
-   UART_MemMapPtr uartPtr = UART2_BASE_PTR;                             /* ∑¢ÀÕ÷–∂œ¥¶¿Ì≥Ã–Ú             */
-   #if UART2_SEND_IRQ                                                   /* ”√ªß∂®“Â                     */ 
-   #endif
-    
-   #if UART2_RECEIVE_IRQ
-   while (UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK){                    /* «Â≥˝÷–∂œ±Í÷æ                 */
-       uart2SendChar(UART_D_REG(uartPtr));                              /* ∑µªÿΩ” ’ ˝æ›                 */              
-       while (!UART_D_REG(uartPtr));                                    /* «ÂΩ” ’ª∫≥Â«¯                 */
-   }   
-   #endif    
-}
-/*********************************************************************************************************
-  END FILE 
-*********************************************************************************************************/

@@ -1,4 +1,4 @@
-"E:\Project\Slaver\MKL16Z4\startup\system_MKL16Z4.c"
+"E:\Project\Slaver\Component\UWB\Interrupt_UWB.c"
 -std=c99
 -ferror-limit=100
 -I

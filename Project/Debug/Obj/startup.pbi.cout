@@ -1,14 +1,14 @@
-"E:\Slaver\MKL16Z4\startup.c"
+"E:\Project\Slaver\MKL16Z4\startup.c"
 -std=c99
 -ferror-limit=100
 -I
-E:\Slaver\Project\..\Include
+E:\Project\Slaver\Project\..\Include
 -I
-E:\Slaver\Project\..\MKL16Z4
+E:\Project\Slaver\Project\..\MKL16Z4
 -I
-E:\Slaver\Project\..\MKL16Z4\include
+E:\Project\Slaver\Project\..\MKL16Z4\include
 -I
-E:\Slaver\Project\..\MKL16Z4\startup
+E:\Project\Slaver\Project\..\MKL16Z4\startup
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\CMSIS\Include
 -I
@@ -16,13 +16,13 @@ C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\inc
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\inc\c
 -I
-E:\Slaver\Include
+E:\Project\Slaver\Include
 -I
-E:\Slaver\MKL16Z4
+E:\Project\Slaver\MKL16Z4
 -I
-E:\Slaver\MKL16Z4\include
+E:\Project\Slaver\MKL16Z4\include
 -I
-E:\Slaver\MKL16Z4\startup
+E:\Project\Slaver\MKL16Z4\startup
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\CMSIS\Include
 -D__CHAR_BITS__=8

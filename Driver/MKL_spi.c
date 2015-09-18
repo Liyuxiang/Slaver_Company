@@ -1,115 +1,109 @@
-/****************************************Copyright (c)****************************************************
-**               Copyright © 2003~2009 Shenzhen uCdragon Technology Co.,Ltd. All Rights Reserved 
-**
-**                                 http://www.ucdragon.com
-**
-**      …Ó€⁄ –”≈¡˙ø∆ºº”–œﬁπ´ÀæÀ˘Ã·π©µƒÀ˘”–∑˛ŒÒƒ⁄»›÷º‘⁄–≠÷˙øÕªßº”ÀŸ≤˙∆∑µƒ—–∑¢Ω¯∂»£¨‘⁄∑˛ŒÒπ˝≥Ã÷–À˘Ã·π©
-**  µƒ»Œ∫Œ≥Ã–Ú°¢Œƒµµ°¢≤‚ ‘Ω·π˚°¢∑Ω∞∏°¢÷ß≥÷µ»◊ ¡œ∫Õ–≈œ¢£¨∂ºΩˆπ©≤Œøº£¨øÕªß”–»®≤ª π”√ªÚ◊‘––≤Œøº–ﬁ∏ƒ£¨±æπ´Àæ≤ª
-**  Ã·π©»Œ∫ŒµƒÕÍ’˚–‘°¢ø…øø–‘µ»±£÷§£¨»Ù‘⁄øÕªß π”√π˝≥Ã÷–“Ú»Œ∫Œ‘≠“Ú‘Ï≥…µƒÃÿ±µƒ°¢≈º»ªµƒªÚº‰Ω”µƒÀ ß£¨±æπ´Àæ≤ª
-**  ≥–µ£»Œ∫Œ‘»Œ°£
-**                                                                        °™…Ó€⁄ –”≈¡˙ø∆ºº”–œﬁπ´Àæ
-**
-**--------------File Info---------------------------------------------------------------------------------
-** File name:               MKL_spi.c
-** Last modified date:     
-** Last version:            V1.0
-** Descriptions:            spiœ‡πÿ∫Ø ˝
-**
-** Modified date:      
-** Version:            
-** Descriptions:       
-**
-*********************************************************************************************************/
+/*=============================================================================
+#     FileName: MKL_spi.c
+#         Desc: SPIÊé•Âè£Áõ∏ÂÖ≥ÂáΩÊï∞
+#       Author: Lyn
+#        Email: 
+#     HomePage: 
+#      Version: 0.0.1
+#   LastChange: 2015-09-18 14:52:01
+#      History:
+=============================================================================*/
 #include "includes.h"
 
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :ÂàùÂßãÂåñSPIÊé•Âè£
+ *
+ * Input    :SPI
+ * Input    :bMode
+ */
+/* ---------------------------------------------------------------------------*/
+void SpiInit (){
+    /* **
+     * Êó∂ËÉΩÊó∂Èíü
+     */
+    SIM_SCGC4 |= SIM_SCGC4_SPI1_MASK;  
+    /* **
+     * SPI System Enable-->SPE,,,SPIÁ≥ªÁªü‰ΩøËÉΩ
+     */
+    SPI1->C1 |= SPI_C1_SPE_MASK ;   
+    /* **
+     * ËÆæÁΩÆÊó∂ÈíüÁõ∏‰Ωç,ÂÖ∑‰ΩìÊü•ÁúãSPIÂçèËÆÆ
+     */
+    SPI1->C1 &= ~(1 << SPI_C1_CPHA_SHIFT);
+    /* **
+     * ‰∏ªÊú∫Ê®°Âºè
+     */
+    SPI1->C1 |= SPI_C1_MSTR_MASK;
+    /* **
+     * ËÆæÁΩÆ1ÂàÜÈ¢ë,Âç≥‰ΩøÁî®Â§ñÈÉ®ËÆæÂ§áÁöÑÊó∂Èíü,Êó∂ÈíüËÆæÁΩÆÂèÇËÄÉSystemInitÂáΩÊï∞.
+     */
+    SPI1->BR |= SPI_BR_SPPR(0) ; 
+}
 
-/*********************************************************************************************************
-** Function name:           spiInit
-** Descriptions:            spi≥ı ºªØ
-** input parameters:        SPI ‰»Îª˘µÿ÷∑  ‰»Î÷˜¥”ƒ£ Ω
-** output parameters:       none
-** Returned value:          none
-** Created by:              
-** Created date
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void spiInit (SPI_MemMapPtr SPI,BOOLEAN bMode)
+
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :ÂèëÈÄÅ‰ª•Â≠óËäÇÊï∞ÊçÆ
+ *
+ * Input    :ucdata-->ÂèëÈÄÅÊï∞ÊçÆ
+ *
+ * Output   :ÊòØÂê¶‰º†ËæìÈîôËØØ
+ */
+/* ---------------------------------------------------------------------------*/
+SPIState Send_Byte (unsigned char ucdata)
 {
-    SIM_SCGC4 |= SIM_SCGC4_SPI0_MASK;                                   /* ø™∆ÙSPI0                     */
-                                                                        /* CPOL = 0, SCK Œ™µÕ”––ß       */
-                                                                        /* MSTR = 1, SPI ¥¶”⁄÷˜ƒ£ Ω     */
-                                                                        /* LSBF = 0, MSB (Œª7)‘⁄œ»      */
-                                                                        /* SPIE = 0, SPI ÷–∂œ±ªΩ˚÷π     */
-                                                                        /* CPHA = 0, SCKµ⁄“ª∏ˆ ±÷”—ÿ≤…—˘*/
-    SPI->C1 |= SPI_C1_SPE_MASK ;                                        /* SPI πƒ‹                      */
-    SPI->C1 &= ~(1 << SPI_C1_CPHA_SHIFT);
-    if(bMode == Master) {                                               /* ÷˜ƒ£ Ω                       */
-        SPI->C1 |= SPI_C1_MSTR_MASK;
-    } else {                                                            /* ¥”ƒ£ Ω                       */
-        SPI->C1 &= ~(1 << SPI_C1_MSTR_SHIFT);
+    unsigned char temp;
+    unsigned short count=0;
+    while(((SPI1_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK)&&(count<ErrorCount)){
+        count++;
     }
-    SPI->BR |= SPI_BR_SPPR(0) ;                                         /*  ±÷”∑÷∆µ                     */
+    if(count>=ErrorCount){
+        return SPIError;
+    }else{
+        SPI1_DL = ucdata;
+    }
+    count=0; 
+    while(((SPI1_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK)&&(count<ErrorCount)){
+        count++;
+    }
+    if(count>=ErrorCount){
+        return SPIError;
+    }else{
+        temp = SPI1_DL;  
+    }
+	return SPISuccess;
 }
-
-/*********************************************************************************************************
-** ∫Ø ˝√˚≥∆: Send_Byte
-** ∫Ø ˝π¶ƒ‹£∫SPI∑¢ÀÕ“ª∏ˆ◊÷Ω⁄ ˝æ› SPI0«˝∂Ø
-**  ‰»Î≤Œ ˝: data
-**  ‰≥ˆ≤Œ ˝: Œﬁ
-** ∑µ ªÿ ÷µ£∫Œﬁ
-*********************************************************************************************************/
-INT8U Send_Byte (INT8U ucdata)
+/* ---------------------------------------------------------------------------*/
+/**
+ * Description :Êé•ÂèóÊï∞ÊçÆ
+ *
+ * Input    :dateRec-->Êé•ÂèóÂà∞ÁöÑÊï∞ÊçÆ
+ *
+ * Output   :SPIÁä∂ÊÄÅ
+ */
+/* ---------------------------------------------------------------------------*/
+SPIState Get_Byte (unsigned char * dateRec)
 {
-    INT8U ucTemp;
-    while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);             /* ∑¢ÀÕ«∞“™œ»≈–∂œºƒ¥Ê∆˜         */
-    SPI0_DL = ucdata;
-    
-    while((SPI0_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK);               /* Ω” ’ ˝æ›”––ß                 */
-    ucTemp = SPI0_DL;                                                    /* «Âø’Ω” ’±Íº«ºƒ¥Ê∆˜           */
-    ucTemp = ucTemp;
-	return ucTemp;
+    unsigned char temp;
+    unsigned short count=0;
+    while(((SPI1_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK)&&(count<ErrorCount)){
+        count++;
+    }
+    if(count>=ErrorCount){
+        return SPIError;
+    }else{
+        SPI1_DL = 0xff;
+    }
+    count=0; 
+    while(((SPI1_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK)&&(count<ErrorCount)){
+        count++;
+    }
+    if(count>=ErrorCount){
+        return SPIError;
+    }else{
+        * dateRec = SPI1_DL;  
+    }
+	return SPISuccess; 
 }
-
-/*********************************************************************************************************
-** ∫Ø ˝√˚≥∆:Get_Byte
-** ∫Ø ˝π¶ƒ‹:SPIΩ”ø⁄Ω” ’“ª∏ˆ◊÷Ω⁄ ˝æ›  π”√SPI0
-**  ‰»Î≤Œ ˝:Œﬁ
-**  ‰≥ˆ≤Œ ˝:Œﬁ
-*********************************************************************************************************/
-INT8U Get_Byte (void)
-{
-    INT8U ucTemp;
-    while((SPI0_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);             /* ∑¢ÀÕ«∞“™œ»≈–∂œºƒ¥Ê∆˜         */
-    SPI0_DL = 0xff;                                                      /* ∑¢ÀÕø’ ˝æ›∂¡»°ƒ⁄»›           */
-
-    while((SPI0_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK);               /* Ω” ’ ˝æ›”––ß                 */
-    ucTemp = SPI0_DL;
-    return (INT8U)(ucTemp);                                             /* ∑µªÿΩ” ’µΩµƒ ˝æ›             */
-}
-
-/*********************************************************************************************************
-** Function name:           spiTX
-** Descriptions:            spi≥ı ºªØ
-** input parameters:        SPI ‰»Îª˘µÿ÷∑ ≤È—Ø∑Ω Ω∑¢ÀÕ ˝æ›
-** output parameters:       none
-** Returned value:          none
-** Created by:              JiaoLong Liu
-** Created date:            2012-12-12
-**--------------------------------------------------------------------------------------------------------
-** Modified by:             
-** Modified date:           
-*********************************************************************************************************/
-void spiTX(SPI_MemMapPtr SPI,INT8U ucData)
-{
-    while((SPI->S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK);             /* ∑¢ÀÕ«∞“™œ»≈–∂œºƒ¥Ê∆˜         */
-    SPI->DL = ucData;
-}
-
-/*********************************************************************************************************
-  END FILE 
-*********************************************************************************************************/
-
-
 
