@@ -1924,6 +1924,9 @@
     <file>
       <name>$PROJ_DIR$\..\CFG\includes.h</name>
     </file>
+    <file>
+      <name>$PROJ_DIR$\..\CFG\system.h</name>
+    </file>
   </group>
   <group>
     <name>Component</name>
