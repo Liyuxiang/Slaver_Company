@@ -2096,6 +2096,9 @@
   </configuration>
   <group>
     <name>CFG</name>
+    <file>
+      <name>$PROJ_DIR$\..\CFG\includes.h</name>
+    </file>
   </group>
   <group>
     <name>Component</name>
@@ -2110,6 +2113,15 @@
     <name>Driver</name>
     <file>
       <name>$PROJ_DIR$\..\Driver\MKL_gpio.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_lptmr.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_mcg.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_smc.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\Driver\MKL_spi.c</name>

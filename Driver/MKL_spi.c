@@ -51,26 +51,25 @@ void SpiInit (){
  * Output   :是否传输错误
  */
 /* ---------------------------------------------------------------------------*/
-SPIState Send_Byte (unsigned char ucdata)
-{
+SPIState Send_Byte (unsigned char ucdata) {
     unsigned char temp;
     unsigned short count=0;
     while(((SPI1_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK)&&(count<ErrorCount)){
         count++;
     }
-    if(count>=ErrorCount){
+    if(count>=ErrorCount) {
         return SPIError;
-    }else{
+    }else {
         SPI1_DL = ucdata;
     }
-    count=0; 
+    count=0;
     while(((SPI1_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK)&&(count<ErrorCount)){
         count++;
     }
     if(count>=ErrorCount){
         return SPIError;
     }else{
-        temp = SPI1_DL;  
+        temp = SPI1_DL; 
     }
 	return SPISuccess;
 }
@@ -83,11 +82,10 @@ SPIState Send_Byte (unsigned char ucdata)
  * Output   :SPI状态
  */
 /* ---------------------------------------------------------------------------*/
-SPIState Get_Byte (unsigned char * dateRec)
-{
+SPIState Get_Byte (unsigned char * dateRec) {
     unsigned char temp;
     unsigned short count=0;
-    while(((SPI1_S & SPI_S_SPTEF_MASK) != SPI_S_SPTEF_MASK)&&(count<ErrorCount)){
+    while(((SPI1_S & SPI_S_SPTEF_MASK)!= SPI_S_SPTEF_MASK)&&(count<ErrorCount)){
         count++;
     }
     if(count>=ErrorCount){
@@ -96,7 +94,7 @@ SPIState Get_Byte (unsigned char * dateRec)
         SPI1_DL = 0xff;
     }
     count=0; 
-    while(((SPI1_S & SPI_S_SPRF_MASK) != SPI_S_SPRF_MASK)&&(count<ErrorCount)){
+    while(((SPI1_S & SPI_S_SPRF_MASK)!= SPI_S_SPRF_MASK)&&(count<ErrorCount)){
         count++;
     }
     if(count>=ErrorCount){

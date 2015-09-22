@@ -10,6 +10,14 @@ E:\Project\Slaver\Project\..\MKL16Z4\include
 -I
 E:\Project\Slaver\Project\..\MKL16Z4\startup
 -I
+E:\Project\Slaver\Project\..\Component\UWB
+-I
+E:\Project\Slaver\Project\..\Driver
+-I
+E:\Project\Slaver\Project\..\User
+-I
+E:\Project\Slaver\Project\..\CFG
+-I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\CMSIS\Include
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\inc
@@ -23,6 +31,14 @@ E:\Project\Slaver\MKL16Z4
 E:\Project\Slaver\MKL16Z4\include
 -I
 E:\Project\Slaver\MKL16Z4\startup
+-I
+E:\Project\Slaver\Component\UWB
+-I
+E:\Project\Slaver\Driver
+-I
+E:\Project\Slaver\User
+-I
+E:\Project\Slaver\CFG
 -I
 C:\Program Files\IAR Systems\Embedded Workbench 7.2\arm\CMSIS\Include
 -D__CHAR_BITS__=8

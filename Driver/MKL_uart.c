@@ -9,7 +9,8 @@
 #      History:
 =============================================================================*/
 #include "includes.h"
-unsigned char 
+#include "MKL_uart.h"
+extern unsigned long SystemBusClock;
 /* ---------------------------------------------------------------------------*/
 /**
  * Description :GPRS串口初始化,使用UART0,目前不支持10位.
@@ -26,10 +27,9 @@ void  GPRS_Uart_Init (unsigned long  ulBaudRate,
         unsigned char   ucParityType,
         unsigned char   ucDataLength, 
         unsigned char   ucStopBit) {
-    register INT16U usBaudRate  = 0;  
+    register unsigned short usBaudRate  = 0;  
 
-    SIM_SOPT2 |= SIM_SOPT2_PLLFLLSEL_MASK; 
-    SIM_SOPT2 |= SIM_SOPT2_UART0SRC(1);   
+    SIM_SOPT2 |= SIM_SOPT2_UART0SRC(3);   
     SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;   
     /* **
      * 失能UART0的发送接受功能.
@@ -55,7 +55,9 @@ void  GPRS_Uart_Init (unsigned long  ulBaudRate,
     /* **
      * 设置波特率
      */
-    usBaudRate = SystemBusClock/(ulBaudRate * 16);
+	UART0_C4_REG(UART0) &= ~ UART0_C4_OSR_MASK;
+	UART0_C4_REG(UART0) |=  UART0_C4_OSR(3);//----->对应下面的4
+    usBaudRate = SystemBusClock/(ulBaudRate * 4);
     UART0_BDH_REG(UART0)  = (usBaudRate & 0x1F00) >> 8;  
     UART0_BDL_REG(UART0)  = (unsigned char)(usBaudRate & UART0_BDL_SBR_MASK);
     /* **
@@ -106,7 +108,7 @@ void  GPS_Uart_Init (unsigned long  ulBaudRate,
         unsigned char   ucParityType,
         unsigned char   ucDataLength, 
         unsigned char   ucStopBit) {
-    register INT16U usBaudRate  = 0;  
+    register unsigned short usBaudRate  = 0;  
 
     SIM_SCGC4 |= SIM_SCGC4_UART2_MASK;
     /* **
@@ -211,7 +213,7 @@ void  GPS_Send_Char (unsigned char  ucData) {
 /* ---------------------------------------------------------------------------*/
 void  GPRS_Send_String (unsigned char  *pucBuf) {
     while (*pucBuf != '\0') { 
-        (UART2)(*pucBuf++);
+        GPRS_Send_Char(*pucBuf++);
     }    
 }
 
@@ -238,7 +240,6 @@ void  GPS_Send_String (unsigned char  *pucBuf) {
 void  UART0_IRQHandler (void) {     
     UART0_MemMapPtr uartPtr = UART0_BASE_PTR;     
     while (UART0_S1_REG(uartPtr) & UART0_S1_RDRF_MASK) {   
-        uart0SendChar(UART0_D_REG(uartPtr));            
         //     while(!UART0_D_REG(uartPtr));           
     }   
 }
@@ -252,7 +253,6 @@ void  UART0_IRQHandler (void) {
 void  UART2_IRQHandler (void) {
     UART_MemMapPtr uartPtr = UART2_BASE_PTR;  
     while (UART_S1_REG(uartPtr) & UART_S1_RDRF_MASK){    
-        uart2SendChar(UART_D_REG(uartPtr));             
         while (!UART_D_REG(uartPtr));                  
     }   
 }

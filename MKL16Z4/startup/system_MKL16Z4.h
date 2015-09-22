@@ -153,7 +153,7 @@ extern "C" {
          Core clock = 4MHz
          Bus clock  = 1MHz
 */
-#define CLOCK_SETUP 1
+#define CLOCK_SETUP 3
 /* Define clock source values */
 
 #define CPU_XTAL_CLK_HZ                8000000U            /* Value of the external crystal or oscillator clock frequency of the system oscillator (OSC) in Hz */

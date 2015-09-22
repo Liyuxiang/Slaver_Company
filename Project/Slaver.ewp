@@ -314,6 +314,10 @@
           <state>$PROJ_DIR$\..\MKL16Z4</state>
           <state>$PROJ_DIR$\..\MKL16Z4\include</state>
           <state>$PROJ_DIR$\..\MKL16Z4\startup</state>
+          <state>$PROJ_DIR$\..\Component\UWB</state>
+          <state>$PROJ_DIR$\..\Driver</state>
+          <state>$PROJ_DIR$\..\User</state>
+          <state>$PROJ_DIR$\..\CFG</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -728,7 +732,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>E:\Slaver\MKL16Z4\linker\iar\MKL16Z64xxx4_flash.icf</state>
+          <state>E:\Project\Slaver\MKL16Z4\linker\iar\MKL16Z64xxx4_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1917,6 +1921,9 @@
   </configuration>
   <group>
     <name>CFG</name>
+    <file>
+      <name>$PROJ_DIR$\..\CFG\includes.h</name>
+    </file>
   </group>
   <group>
     <name>Component</name>
@@ -1931,6 +1938,15 @@
     <name>Driver</name>
     <file>
       <name>$PROJ_DIR$\..\Driver\MKL_gpio.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_lptmr.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_mcg.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\Driver\MKL_smc.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\..\Driver\MKL_spi.c</name>
